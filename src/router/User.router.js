@@ -1,17 +1,14 @@
-const express=require("express")
+const express = require("express")
+const { login, signup } = require("../controller/User.controller")
 
 
-const router=express.Router()
+const router = express.Router()
 
-router.get("/user",(req,res)=>{
+router.get("/user", (req, res) => {
     res.status(200).send("response from user")
 })
 
-router.post("/user/login",(req,res)=>{
-    res.status(200).send("response from login")
-})
-router.post("/user/signup",(req,res)=>{
-    res.status(200).send("response from signup")
-})
+router.post("/user/login", login)
+router.post("/user/signup", signup)
 
-module.exports=router
+module.exports = router

@@ -1,7 +1,7 @@
 const User = require("../model/User.model")
 const Joi = require("joi")
-
-
+const jwt = require("jsonwebtoken")
+const bcrypt = require("bcrypt")
 const SignupSchema = Joi.object({
     fullname: Joi.string()
         .min(3)
@@ -18,7 +18,7 @@ const SignupSchema = Joi.object({
             "string.pattern.base": "Phone number must be exactly 10 digits",
             "string.empty": "Phone number is required"
         }),
-    Age: Joi.number()
+    age: Joi.number()
         .min(0)
         .max(120)
         .required()
@@ -29,9 +29,10 @@ const SignupSchema = Joi.object({
             "any.required": "Age is required"
         }),
     email: Joi.string()
-
+        .email()
         .required()
         .messages({
+            "string.email": "Please enter a valid email address",
             "string.email": "Please enter a valid email address",
             "string.empty": "Email is required"
         }),
@@ -48,8 +49,10 @@ const SignupSchema = Joi.object({
 
 const loginSchema = Joi.object({
     email: Joi.string()
+        .email()
         .required()
         .messages({
+            "string.email": "Please enter a valid email address",
             "string.email": "Please enter a valid email address",
             "string.empty": "Email is required"
         }),
@@ -64,31 +67,31 @@ const loginSchema = Joi.object({
         }),
 })
 
-
 const signup = async (req, res) => {
-    const data = req.body
+    console.log("Request body:", req.body);
     try {
-        const { error, value } = SignupSchema.validate(data, {
-            allowUnknown: true,
-            abortEarly: false
-        })
-        if (!error) {
-            let saltRounds = 10
-            const hash = bcrypt.hashSync(value.password, saltRounds)
-            const user = await User.create({ ...value, password: hash })
-            let userObject = user.toObject()
-            delete userObject.password
-            console.log(userObject)
-            res.status(200).send(userObject)
-
-        } else {
-            throw error
+        const { error, value } = SignupSchema.validate(req.body);
+        if (error) {
+            return res.status(400).json({ error: error.details });
         }
-        res.status(200).send("User successfully created")
-    } catch (error) {
-        res.send(err)
+
+        // Hash password
+        const saltRounds = 10;
+        const hash = bcrypt.hashSync(value.password, saltRounds);
+
+        // Save user
+        const user = await User.create({ ...value, password: hash });
+
+        const userObject = user.toObject();
+        delete userObject.password;
+
+        return res.status(201).json({ message: "User created", user: userObject });
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ message: "Internal server error" });
     }
-}
+};
+
 
 
 const login = async (req, res) => {
