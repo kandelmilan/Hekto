@@ -53,7 +53,6 @@ const loginSchema = Joi.object({
         .required()
         .messages({
             "string.email": "Please enter a valid email address",
-            "string.email": "Please enter a valid email address",
             "string.empty": "Email is required"
         }),
 
@@ -66,6 +65,35 @@ const loginSchema = Joi.object({
             "string.min": "Password must be at least 6 characters",
         }),
 })
+const login = async (req, res) => {
+    try {
+        const { error, value } = loginSchema.validate(req.body);
+        if (error) {
+            return res.status(400).json({ message: "Validation failed", details: error.details });
+        }
+
+        const user = await User.findOne({ email: value.email });
+        if (!user) {
+            return res.status(401).json({ message: "Email not found" });
+        }
+
+        const matched = await bcrypt.compare(value.password, user.password);
+        if (!matched) {
+            return res.status(401).json({ message: "Wrong password" });
+        }
+
+        const userObject = user.toObject();
+        delete userObject.password;
+
+        const token = jwt.sign(userObject, process.env.JWT_SECRET, { expiresIn: "1h" });
+
+        res.status(200).json({ status: "success", message: "User logged in successfully", data: { token, userObject } });
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Internal server error" });
+    }
+};
 
 const signup = async (req, res) => {
     console.log("Request body:", req.body);
@@ -93,35 +121,6 @@ const signup = async (req, res) => {
 };
 
 
-
-const login = async (req, res) => {
-
-    try {
-        const loginData = req.body
-        const { error, value } = loginSchema.validate(loginData)
-        const user = await User.findOne({ email: value.email })
-        if (!user) {
-            res.status(200).send({ message: "wrong Input" })
-
-            return
-        }
-        const matched = await bcrypt.compare(value.password, user.password)
-
-        if (!matched) {
-            res.status(200).send({ status: "success", message: "Wrong Creditential", data: [] })
-            return
-        } else {
-            const userObject = user.toObject()
-            delete userObject.password
-            const token = jwt.sign(userObject, process.env.JWT_SECRET)
-            res.status(200).send({ status: "sucess", message: "User Logedin successfuly", data: { token, userObject } })
-
-        }
-
-    } catch (err) {
-        console.log(err)
-    }
-}
 module.exports = {
     signup, login
 }
