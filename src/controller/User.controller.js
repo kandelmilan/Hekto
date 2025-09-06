@@ -69,12 +69,12 @@ const login = async (req, res) => {
     try {
         const { error, value } = loginSchema.validate(req.body);
         if (error) {
-            return res.status(400).json({ message: "Validation failed", details: error.details });
+            return res.status(400).send({ message: "Validation failed", details: error.details });
         }
 
         const user = await User.findOne({ email: value.email });
         if (!user) {
-            return res.status(401).json({ message: "Email not found" });
+            return res.status(401).send({ message: "Email not found" });
         }
 
         const matched = await bcrypt.compare(value.password, user.password);
@@ -87,11 +87,11 @@ const login = async (req, res) => {
 
         const token = jwt.sign(userObject, process.env.JWT_SECRET, { expiresIn: "1h" });
 
-        res.status(200).json({ status: "success", message: "User logged in successfully", data: { token, userObject } });
+        res.status(200).send({ status: "success", message: "User logged in successfully", data: { token, userObject } });
 
     } catch (err) {
         console.error(err);
-        res.status(500).json({ message: "Internal server error" });
+        res.status(500).send({ message: "Internal server error" });
     }
 };
 
@@ -100,7 +100,7 @@ const signup = async (req, res) => {
     try {
         const { error, value } = SignupSchema.validate(req.body);
         if (error) {
-            return res.status(400).json({ error: error.details });
+            return res.status(400).send({ error: error.details });
         }
 
         // Hash password
@@ -113,10 +113,10 @@ const signup = async (req, res) => {
         const userObject = user.toObject();
         delete userObject.password;
 
-        return res.status(201).json({ message: "User created", user: userObject });
+        return res.status(201).send({ message: "User created", user: userObject });
     } catch (err) {
         console.error(err);
-        return res.status(500).json({ message: "Internal server error" });
+        return res.status(500).send({ message: "Internal server error" });
     }
 };
 
