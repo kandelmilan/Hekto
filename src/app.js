@@ -3,9 +3,6 @@ const app=express()
 const UserRouter=require("./router/User.router")
 
 
-
-
-
 app.use(express.json());  
 
 app.get("/",(req,res)=>{

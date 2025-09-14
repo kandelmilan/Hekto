@@ -1,8 +1,9 @@
+const { link } = require("joi");
 const mongoose=require("mongoose")
 
 
 const BannerSchema=mongoose.Schema({
-    image:{
+    title:{
         type:String
     },
     image:{
@@ -12,8 +13,14 @@ const BannerSchema=mongoose.Schema({
     description:{
         type:String
     },
-    discountPercentage: {
+    discount: {
          type: Number
+    },
+    link:{
+        type:String
+    },
+    subtitle:{
+        type:String
     }
 })
 

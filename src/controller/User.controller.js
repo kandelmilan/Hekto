@@ -103,11 +103,11 @@ const signup = async (req, res) => {
             return res.status(400).send({ error: error.details });
         }
 
-        // Hash password
+
         const saltRounds = 10;
         const hash = bcrypt.hashSync(value.password, saltRounds);
 
-        // Save user
+
         const user = await User.create({ ...value, password: hash });
 
         const userObject = user.toObject();
