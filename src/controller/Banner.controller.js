@@ -44,8 +44,12 @@ const bannerValidationSchema = Joi.object({
         })
 });
 
-const createBanner = async (req, res) => {
-    res.status(201).json("Banner created successfully")
+const createBanner = async (req, res,next) => {
+try{
+
+}catch(err){
+    next(err)
+}
 
 }
 
