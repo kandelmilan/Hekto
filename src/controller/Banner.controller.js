@@ -1,3 +1,4 @@
+const handlerError = require("../middleware/handelError");
 const banner = require("../model/Banner.model")
 const Joi = require("joi")
 
@@ -43,4 +44,24 @@ const bannerValidationSchema = Joi.object({
         })
 });
 
-module.exports = { bannerValidationSchema };
+const createBanner = async (req, res) => {
+    try {
+        const { error, value } = bannerValidationSchema.validate(equal.body,
+            { abortEarly: false }
+        )
+        if (error) {
+            const errors = error.details.map((detail) => detail.message);
+            return res.status(400).json({ success: false, errors });
+        }
+        const newBanner = new Banner(value);
+        const saveBanner = await newBanner.save();
+        res.status(201).json({
+            success: true,
+            message: "Banner created successfully",
+            data: savedBanner,
+        });
+    } catch (err) {
+        handlerError
+    }
+}
+module.exports = { createBanner };

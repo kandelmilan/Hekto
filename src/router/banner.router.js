@@ -1,13 +1,12 @@
-const express=require("express")
+const express = require("express");
+const { createBanner } = require("../controller/Banner.controller");
 
-const router=express.Router()
+const router = express.Router()
 
-router.get("/", (req, res) => {
-    res.send("All banners");
-});
+router.get("/", createBanner);
 
 router.post("/", (req, res) => {
     res.send("Create banner");
 });
 
-module.exports=router
+module.exports = router
