@@ -55,7 +55,7 @@ const createBanner = async (req, res, next) => {
     catch (err) {
         if (req.file) {
 
-            deleteImage(req.body.image)
+            deleteImage(req.file.path);
         }
         next(err)
 
