@@ -1,6 +1,7 @@
 const handlerError = require("../middleware/handelError");
-const banner = require("../model/Banner.model")
-const Joi = require("joi")
+const Banner = require("../model/Banner.model")
+const Joi = require("joi");
+const deleteImage = require("../utils/deleteImage");
 
 
 const bannerValidationSchema = Joi.object({
@@ -44,13 +45,36 @@ const bannerValidationSchema = Joi.object({
         })
 });
 
-const createBanner = async (req, res,next) => {
-try{
-
-}catch(err){
-    next(err)
+const createBanner = async (req, res, next) => {
+    try {
+        const banner = await Banner.create(req.body)
+        res.status(201).json({
+            status: "success",
+            data: banner
+        })
+    } catch (err) {
+        if (req.file) {
+            deleteImage(req.body.image)
+        }
+        next(err)
+    }
 }
 
+const getBanner = async (res, req, next) => {
+    try {
+        const banners = await Banner.find();
+        res.status(200).send("banner Found")
+        console.log(res)
+    } catch (err) {
+        next(err)
+    }
 }
+// const deleteBanner = (res, req, next) => {
+//     try {
+//         const { id } = equal.param
+//     } catch (err) {
+//         next(err)
+//     }
+// }
 
-module.exports = { createBanner };
+module.exports = { createBanner, getBanner };
