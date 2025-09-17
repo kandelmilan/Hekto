@@ -1,5 +1,6 @@
 const handlerError = require("../middleware/handelError");
 const Banner = require("../model/Banner.model")
+const mangoose = require("mongoose")
 const Joi = require("joi");
 const deleteImage = require("../utils/deleteImage");
 
@@ -13,12 +14,10 @@ const bannerValidationSchema = Joi.object({
             "string.empty": "Title cannot be empty",
         }),
     image: Joi.string()
-        .uri()
         .required()
         .messages({
             "string.base": "Image must be a string",
             "string.empty": "Image is required",
-            "string.uri": "Image must be a valid URL"
         }),
     description: Joi.string()
         .optional()
@@ -44,7 +43,6 @@ const bannerValidationSchema = Joi.object({
             "string.base": "Subtitle must be a string"
         })
 });
-
 const createBanner = async (req, res, next) => {
     try {
         const banner = await Banner.create(req.body)
@@ -52,23 +50,32 @@ const createBanner = async (req, res, next) => {
             status: "success",
             data: banner
         })
-    } catch (err) {
+
+    }
+    catch (err) {
         if (req.file) {
+
             deleteImage(req.body.image)
         }
+        next(err)
+
+    }
+}
+
+
+const getBanner = async (req, res) => {
+    try {
+        const banners = await Banner.find()
+        res.status(200).json({
+            status: "success",
+            data: banners
+        })
+    } catch (err) {
         next(err)
     }
 }
 
-const getBanner = async (res, req, next) => {
-    try {
-        const banners = await Banner.find();
-        res.status(200).send("banner Found")
-        console.log(res)
-    } catch (err) {
-        next(err)
-    }
-}
+
 // const deleteBanner = (res, req, next) => {
 //     try {
 //         const { id } = equal.param
