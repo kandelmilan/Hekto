@@ -12,4 +12,16 @@ router.get("/", (req, res) => {
 router.post("/login", login)
 router.post("/signup", signup)
 
+
+router.route('/:id')
+    .get((req, res) => {
+        res.send(`User id is ${req.params.id}`)
+    })
+    .patch((req, res) => {
+        res.send(`User id is ${req.params.id} and updated`)
+    })
+    .delete((req, res) => {
+        res.send(`User id is ${req.params.id} and deleted`)
+    })
+
 module.exports = router
