@@ -59,7 +59,7 @@ const getCategoryById = async (req, res, next) => {
     try {
         const { id } = mongoose.Types.ObjectId(req.params.id)
         const category = await Category.findById(id)
-        res.status(200).json({  
+        res.status(200).json({
             status: "success",
             data: category
         })
