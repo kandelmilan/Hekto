@@ -36,14 +36,6 @@ const isBuyer = () => {
         res.status(403).send("Forbidden")
     }
 }
-const isSeller = () => {
-    const user = req.user
-    if (user.role === "seller") {
-        next()
-    } else {
-        res.status(403).send("Forbidden")
-    }
-}
 
 
 module.exports = {
