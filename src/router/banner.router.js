@@ -11,16 +11,16 @@ router.post("/", upload.single("image"), checkFile, getBanner);
 
 
 //garna baki xa yo copy gareko ho sir bata 
-// router.delete("/:id",
-//     // authenticateUser, authorizeAdmin,
+router.delete("/:id",
+    // authenticateUser, authorizeAdmin,
 
-//     deleteBanner
-// )
+    deleteBanner
+)
 
 
-// router.patch("/:id", upload.single("image"), checkFile,
-//     // authenticateUser, auhorizeAdmin,
-//     updateBanner
-// )
+router.patch("/:id", upload.single("image"), checkFile,
+    // authenticateUser, auhorizeAdmin,
+    updateBanner
+)
 
 module.exports = router

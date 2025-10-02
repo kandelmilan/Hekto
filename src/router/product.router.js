@@ -12,25 +12,25 @@ const { checkFile } = require("../middleware/checkFile");
 
 const router = express.Router();
 
-// ✅ Create Product
+//  Create Product
 router.post("/", upload.single("image"), checkFile,
     // authenticateUser, authorizeAdmin,
     createProduct
 );
 
-// ✅ Get All Products
+// Get All Products
 router.get("/", getProducts);
 
-// ✅ Get Single Product by ID
+//  Get Single Product by ID
 router.get("/:id", getProductById);
 
-// ✅ Update Product
+//  Update Product
 router.patch("/:id", upload.single("image"), checkFile,
     // authenticateUser, authorizeAdmin,
     updateProduct
 );
 
-// ✅ Delete Product
+//  Delete Product
 router.delete("/:id",
     // authenticateUser, authorizeAdmin,
     deleteProduct
