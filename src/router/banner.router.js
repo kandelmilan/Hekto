@@ -14,7 +14,7 @@ router.post("/", upload.single("image"), checkFile, getBanner);
 router.delete("/:id",
     // authenticateUser, authorizeAdmin,
 
-    deleteBanner
+    // deleteBanner
 )
 
 
