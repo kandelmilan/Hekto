@@ -3,24 +3,18 @@ const { createBanner, getBanner } = require("../controller/Banner.controller");
 const upload = require("../utils/multer");
 const { checkFile } = require("../middleware/checkFile");
 
-const router = express.Router()
+const router = express.Router();
 
-router.get("/", createBanner);
+// Get all banners
+router.get("/", getBanner);
 
-router.post("/", upload.single("image"), checkFile, getBanner);
+// Create new banner
+router.post("/", upload.single("image"), checkFile, createBanner);
 
+// Update banner by ID
+router.patch("/:id", upload.single("image"), checkFile);
 
-//garna baki xa yo copy gareko ho sir bata 
-router.delete("/:id",
-    // authenticateUser, authorizeAdmin,
+// Future: delete banner
+// router.delete("/:id", authenticateUser, authorizeAdmin, deleteBanner);
 
-    // deleteBanner
-)
-
-
-router.patch("/:id", upload.single("image"), checkFile,
-    // authenticateUser, auhorizeAdmin,
-    updateBanner
-)
-
-module.exports = router
+module.exports = router;
