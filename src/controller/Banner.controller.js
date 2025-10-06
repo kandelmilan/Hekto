@@ -76,12 +76,12 @@ const getBanner = async (req, res) => {
 }
 
 
-// const deleteBanner = (res, req, next) => {
-//     try {
-//         const { id } = equal.param
-//     } catch (err) {
-//         next(err)
-//     }
-// }
+const deleteBanner = (res, req, next) => {
+    try {
+        const { id } = equal.param
+    } catch (err) {
+        next(err)
+    }
+}
 
-module.exports = { createBanner, getBanner };
+module.exports = { createBanner, getBanner,deleteBanner };

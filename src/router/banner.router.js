@@ -1,7 +1,8 @@
 const express = require("express");
-const { createBanner, getBanner } = require("../controller/Banner.controller");
+const { createBanner, getBanner, deleteBanner } = require("../controller/Banner.controller");
 const upload = require("../utils/multer");
 const { checkFile } = require("../middleware/checkFile");
+const { isAdmin } = require("../middleware/auth");
 
 const router = express.Router();
 
@@ -15,6 +16,6 @@ router.post("/", upload.single("image"), checkFile, createBanner);
 router.patch("/:id", upload.single("image"), checkFile);
 
 // Future: delete banner
-// router.delete("/:id", authenticateUser, authorizeAdmin, deleteBanner);
+router.delete("/:id", isAdmin, deleteBanner);
 
 module.exports = router;
