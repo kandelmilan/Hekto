@@ -28,22 +28,22 @@ const isAdmin = (req, res, next) => {
         res.status(403).send("Forbidden")
     }
 }
-const isBuyer = () => {
-    const user = req.user
-    if (user.role === "buyer") {
-        next()
-    } else {
-        res.status(403).send("Forbidden")
-    }
-}
-const isSeller = () => {
-    const user = req.user
-    if (user.role === "seller") {
-        next()
-    } else {
-        res.status(403).send("Forbidden")
-    }
-}
+// const isBuyer = () => {
+//     const user = req.user
+//     if (user.role === "buyer") {
+//         next()
+//     } else {
+//         res.status(403).send("Forbidden")
+//     }
+// }
+// const isSeller = () => {
+//     const user = req.user
+//     if (user.role === "seller") {
+//         next()
+//     } else {
+//         res.status(403).send("Forbidden")
+//     }
+// }
 
 module.exports = {
     isAuthenticated,

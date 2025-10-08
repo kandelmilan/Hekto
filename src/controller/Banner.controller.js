@@ -84,4 +84,4 @@ const deleteBanner = (res, req, next) => {
     }
 }
 
-module.exports = { createBanner, getBanner,deleteBanner };
+module.exports = { createBanner, getBanner, deleteBanner };
