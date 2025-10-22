@@ -16,11 +16,11 @@ const latestProductSchema = new mongoose.Schema({
     discountedPrice: {
         type: Number
     },
-    // userId: {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: "User",
-    //     required: true
-    // }
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: true
+    }
 });
 
 module.exports = mongoose.model("latestProduct", latestProductSchema);
