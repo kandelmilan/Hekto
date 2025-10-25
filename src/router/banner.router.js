@@ -1,21 +1,28 @@
 const express = require("express");
-const { createBanner, getBanner, deleteBanner } = require("../controller/Banner.controller");
 const upload = require("../utils/multer");
 const { checkFile } = require("../middleware/checkFile");
 const { isAdmin } = require("../middleware/auth");
 
 const router = express.Router();
 
-// Get all banners
-router.get("/", getBanner);
+// Get all latest products
+router.get("/", (req, res) => {
+  res.send("Get all latest products");
+});
 
-// Create new banner
-router.post("/", upload.single("image"), checkFile, createBanner);
+// Create new latest product
+router.post("/", upload.single("image"), checkFile, (req, res) => {
+  res.send("Create a new latest product");
+});
 
-// Update banner by ID
-router.patch("/:id", upload.single("image"), checkFile);
+// Update latest product by ID
+router.patch("/:id", upload.single("image"), checkFile, (req, res) => {
+  res.send(`Update latest product with ID: ${req.params.id}`);
+});
 
-// Future: delete banner
-router.delete("/:id", isAdmin, deleteBanner);
+// Delete latest product by ID (only admin)
+router.delete("/:id", isAdmin, (req, res) => {
+  res.send(`Delete latest product with ID: ${req.params.id}`);
+});
 
 module.exports = router;
