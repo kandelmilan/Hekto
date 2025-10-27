@@ -7,7 +7,7 @@ const router = express.Router();
 
 // Get all latest products
 router.get("/", (req, res) => {
-  res.send("Get all latest products");
+  res.send("Get all latest products details ");
 });
 
 // Create new latest product
