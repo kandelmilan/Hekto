@@ -21,8 +21,8 @@ router.patch("/:id", upload.single("image"), checkFile, (req, res) => {
 });
 
 // Delete latest product by ID (only admin)
-router.delete("/:id", isAdmin, (req, res) => {
-  res.send(`Delete latest product with ID: ${req.params.id}`);
-});
+// router.delete("/:id", isAdmin, (req, res) => {
+//   res.send(`Delete latest product with ID: ${req.params.id}`);
+// });
 
 module.exports = router;
