@@ -7,7 +7,7 @@ const router = express.Router();
 
 // Get all latest products
 router.get("/", (req, res) => {
-  res.send("Get all latest products details ");
+  res.send("Get all latest products details");
 });
 
 // Create new latest product
@@ -16,9 +16,13 @@ router.post("/", upload.single("image"), checkFile, (req, res) => {
 });
 
 // Update latest product by ID
-
+router.patch("/:id", upload.single("image"), checkFile, (req, res) => {
+  res.send(`Update latest product with ID: ${req.params.id}`);
+});
 
 // Delete latest product by ID (only admin)
-
+router.delete("/:id", isAdmin, (req, res) => {
+  res.send(`Delete latest product with ID: ${req.params.id}`);
+});
 
 module.exports = router;
