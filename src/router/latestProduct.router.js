@@ -20,5 +20,9 @@ router.patch("/:id", upload.single("image"), checkFile, (req, res) => {
   res.send(`Update latest product with ID: ${req.params.id}`);
 });
 
+router.delete("/:id", upload.single("image"), checkFile, (req, res) => {
+  res.send(`delete latest product with ID: ${req.params.id}`);
+});
+
 
 module.exports = router;
