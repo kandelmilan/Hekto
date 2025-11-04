@@ -10,19 +10,19 @@ router.get("/", (req, res) => {
   res.send("Get all latest products details");
 });
 
-// Create new latest product
-router.post("/", upload.single("image"), checkFile, (req, res) => {
-  res.send("Create a new latest product");
-});
+// // Create new latest product
+// router.post("/", upload.single("image"), checkFile, (req, res) => {
+//   res.send("Create a new latest product");
+// });
 
-// Update latest product by ID
-router.patch("/:id", upload.single("image"), checkFile, (req, res) => {
-  res.send(`Update latest product with ID: ${req.params.id}`);
-});
+// // Update latest product by ID
+// router.patch("/:id", upload.single("image"), checkFile, (req, res) => {
+//   res.send(`Update latest product with ID: ${req.params.id}`);
+// });
 
-router.delete("/:id", upload.single("image"), (req, res) => {
-  res.send(`delete latest product with ID: ${req.params.id}`);
-});
+// router.delete("/:id", upload.single("image"), (req, res) => {
+//   res.send(`delete latest product with ID: ${req.params.id}`);
+// });
 
 
 module.exports = router;
