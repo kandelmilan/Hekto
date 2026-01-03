@@ -8,43 +8,35 @@ const SignupSchema = Joi.object({
         .max(30)
         .required()
         .messages({
-            "string.empty": "Username is required",
-            "string.min": "Username must be at least 3 characters",
-            "string.max": "Username cannot be longer than 30 characters"
+            "string.empty": "Full name is required",
+            "string.min": "Full name must be at least 3 characters",
+            "string.max": "Full name cannot be longer than 30 characters"
         }),
-    PhoneNumber: Joi.string()
-        .required()
-        .messages({
-            "string.pattern.base": "Phone number must be exactly 10 digits",
-            "string.empty": "Phone number is required"
-        }),
-    age: Joi.number()
-        .min(0)
-        .max(120)
-        .required()
-        .messages({
-            "number.base": "Age must be a number",
-            "number.min": "Age cannot be negative",
-            "number.max": "Age seems too high",
-            "any.required": "Age is required"
-        }),
+
     email: Joi.string()
         .email()
         .required()
         .messages({
             "string.email": "Please enter a valid email address",
-            "string.email": "Please enter a valid email address",
             "string.empty": "Email is required"
         }),
+
     password: Joi.string()
         .min(6)
         .max(100)
         .required()
         .messages({
             "string.empty": "Password is required",
-            "string.min": "Password must be at least 6 characters",
+            "string.min": "Password must be at least 6 characters"
         }),
-})
+
+    role: Joi.string()
+        .valid("buyer", "seller")
+        .default("buyer")
+        .messages({
+            "any.only": "Role must be buyer or seller"
+        })
+});
 
 
 const loginSchema = Joi.object({

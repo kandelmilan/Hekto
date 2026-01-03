@@ -7,7 +7,7 @@ const router = express.Router();
 // Get all banners 
 router.get("/", getBanner);
 // Create new banner 
-router.post("/", upload.single("image"), checkFile, creaateBanner);
+router.post("/", upload.single("image"), checkFile, createBanner);
 // Update banner by ID 
 router.patch("/:id", upload.single("image"), checkFile);
 // Future: delete banner 

@@ -1,87 +1,108 @@
-const handlerError = require("../middleware/handelError");
-const Banner = require("../model/Banner.model")
-const mangoose = require("mongoose")
+const Banner = require("../model/Banner.model");
 const Joi = require("joi");
+const mongoose = require("mongoose");
 const deleteImage = require("../utils/deleteImage");
-
 
 const bannerValidationSchema = Joi.object({
     title: Joi.string()
         .trim()
+        .min(3)
+        .max(100)
         .required()
         .messages({
-            "string.base": "Title must be a required",
-            "string.empty": "Title cannot be empty",
+            "string.empty": "Title is required",
+            "string.min": "Title must be at least 3 characters long",
+            "string.max": "Title cannot exceed 100 characters"
         }),
+
     image: Joi.string()
         .required()
         .messages({
-            "string.base": "Image must be a string",
-            "string.empty": "Image is required",
+            "string.empty": "Image is required"
         }),
+
     description: Joi.string()
-        .optional()
-        .messages({
-            "string.base": "Description must be a string"
-        }),
+        .trim()
+        .max(500)
+        .optional(),
+
     discount: Joi.number()
         .min(0)
+        .max(100)
         .optional()
         .messages({
-            "number.base": "Discount must be a number",
-            "number.min": "Discount cannot be negative"
+            "number.min": "Discount cannot be negative",
+            "number.max": "Discount cannot exceed 100"
         }),
+
     link: Joi.string()
-        .uri()
+        .uri({ scheme: ["http", "https"] })
         .optional()
         .messages({
             "string.uri": "Link must be a valid URL"
         }),
+
     subtitle: Joi.string()
+        .trim()
+        .max(150)
         .optional()
-        .messages({
-            "string.base": "Subtitle must be a string"
-        })
 });
+
+
+// CREATE BANNER
 const createBanner = async (req, res, next) => {
     try {
-        const banner = await Banner.create(req.body)
+        if (!req.file) {
+            return res.status(400).json({ message: "Image is required" });
+        }
+
+        const bannerData = {
+            ...req.body,
+            image: `/uploads/${req.file.filename}`,
+            discount: req.body.discount ? Number(req.body.discount) : 0,
+        };
+
+        const banner = await Banner.create(bannerData);
+
         res.status(201).json({
             status: "success",
-            data: banner
-        })
-
+            data: banner,
+        });
+    } catch (err) {
+        next(err);
     }
-    catch (err) {
-        if (req.file) {
-
-            deleteImage(req.file.path);
-        }
-        next(err)
-
-    }
-}
+};
 
 
-const getBanner = async (req, res) => {
+// GET BANNERS
+const getBanner = async (req, res, next) => {
     try {
-        const banners = await Banner.find()
+        const banners = await Banner.find();
         res.status(200).json({
             status: "success",
-            data: banners
-        })
+            data: banners,
+        });
     } catch (err) {
-        next(err)
+        next(err);
     }
-}
+};
 
 
-const deleteBanner = (res, req, next) => {
+// DELETE BANNER
+const deleteBanner = async (req, res, next) => {
     try {
-        const { id } = equal.param
+        const deletedBanner = await Banner.findByIdAndDelete(req.params.id);
+
+        if (!deletedBanner) {
+            return res.status(404).json({ message: "Banner not found" });
+        }
+
+        res.json({ message: "Banner deleted successfully", banner: deletedBanner });
     } catch (err) {
-        next(err)
+        next(err);
     }
-}
+};
+
+
 
 module.exports = { createBanner, getBanner, deleteBanner };

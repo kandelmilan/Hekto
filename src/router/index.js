@@ -3,6 +3,7 @@ const express = require("express")
 const router = express.Router()
 const userRouter = require("./User.router")
 const bannerRouter = require("./banner.router")
+const latestProdcutRoute = require("./latestProduct.router")
 
 const routers = [
     {
@@ -12,6 +13,10 @@ const routers = [
     {
         path: "/banner",
         route: bannerRouter
+    },
+    {
+        path: "/latestProduct",
+        route: latestProdcutRoute
     }
 ]
 

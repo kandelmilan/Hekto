@@ -2,27 +2,21 @@ const express = require("express");
 const upload = require("../utils/multer");
 const { checkFile } = require("../middleware/checkFile");
 const { isAdmin } = require("../middleware/auth");
+const { createLatestProduct, updateLatestProduct, getLatestProduct, deletelatestProduct } = require("../controller/latestProduct.controller");
 
 const router = express.Router();
 
 // Get all latest products
-router.get("/", (req, res) => {
-  res.send("Get all latest products details");
-});
+router.get("/", getLatestProduct);
 
 // Create new latest product
-router.post("/", upload.single("image"), checkFile, (req, res) => {
-  res.send("Create a new latest product");
-});
+router.post("/", upload.single("image"), checkFile, createLatestProduct);
 
 // Update latest product by ID
-router.patch("/:id", upload.single("image"), checkFile, (req, res) => {
-  res.send(`Update latest product with ID: ${req.params.id}`);
-});
+router.patch("/:id", upload.single("image"), checkFile, updateLatestProduct);
 
-router.delete("/:id", upload.single("image"), (req, res) => {
-  res.send(`delete latest product with ID: ${req.params.id}`);
-});
+//deleten latest product by ID
+router.delete("/:id", upload.single("image"), deletelatestProduct);
 
 
 module.exports = router;

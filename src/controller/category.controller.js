@@ -11,7 +11,6 @@ const createCategory = async (req, res) => {
     } catch (err) {
         next(err)
     }
-
 }
 
 const getCategories = async (req, res, next) => {
