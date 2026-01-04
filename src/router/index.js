@@ -4,6 +4,7 @@ const router = express.Router()
 const userRouter = require("./User.router")
 const bannerRouter = require("./banner.router")
 const latestProdcutRoute = require("./latestProduct.router")
+const product = require("./product.router")
 
 const routers = [
     {
@@ -17,7 +18,11 @@ const routers = [
     {
         path: "/latestProduct",
         route: latestProdcutRoute
-    }
+    },
+    {
+        path: "/product",
+        route: product
+    },
 ]
 
 routers.map((route) => {
