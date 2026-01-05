@@ -5,6 +5,7 @@ const userRouter = require("./User.router")
 const bannerRouter = require("./banner.router")
 const latestProdcutRoute = require("./latestProduct.router")
 const product = require("./product.router")
+const topProduct = require("./topCategory.router")
 
 const routers = [
     {
@@ -23,6 +24,10 @@ const routers = [
         path: "/product",
         route: product
     },
+    {
+        path: "/topCategory",
+        route: topCategory
+    }
 ]
 
 routers.map((route) => {
